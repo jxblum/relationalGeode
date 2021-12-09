@@ -46,10 +46,10 @@ public class GemfireConfig {
     ApplicationListener<ApplicationReadyEvent> initializeCache(SomeObjectRepository repository) {
         return event -> repository.save(SomeObject.builder()
             .someId("id1")
-            .customFirstObjects(Collections.singletonList(CustomFirstObject.builder()
+            .customFirstObject(CustomFirstObject.builder()
                 .id(11)
                 .amount(2.0)
-                .build()))
+                .build())
             .build());
     }
 }

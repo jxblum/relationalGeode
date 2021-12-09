@@ -1,7 +1,5 @@
 package com.demo.relationalGeode;
 
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.gemfire.mapping.annotation.Region;
 
@@ -18,5 +16,5 @@ import lombok.NoArgsConstructor;
 public class SomeObject {
     @Id
     private String someId;
-    private List<CustomFirstObject> customFirstObjects;
+    private CustomFirstObject customFirstObject;
 }

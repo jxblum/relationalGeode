@@ -3,7 +3,6 @@ package com.demo.relationalGeode;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -71,10 +70,10 @@ class RelationalGeodeApplicationTests {
 		assertThat(someObject).isNotNull();
 		assertThat(someObject.getSomeId()).isEqualTo("id1");
 
-		List<CustomFirstObject> customFirstObjects = someObject.getCustomFirstObjects();
+		CustomFirstObject customFirstObject = someObject.getCustomFirstObject();
 
-		assertThat(customFirstObjects).isNotNull();
-		assertThat(customFirstObjects).hasSize(1);
-		assertThat(customFirstObjects).contains(CustomFirstObject.builder().id(11).amount(2.0d).build());
+		assertThat(customFirstObject).isNotNull();
+		assertThat(customFirstObject.getId()).isEqualTo(11);
+		assertThat(customFirstObject.getAmount()).isEqualTo(2.0d);
 	}
 }
