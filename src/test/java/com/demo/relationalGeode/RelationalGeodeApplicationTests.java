@@ -74,7 +74,10 @@ class RelationalGeodeApplicationTests {
 		List<CustomFirstObject> customFirstObjects = someObject.getCustomFirstObjects();
 
 		assertThat(customFirstObjects).isNotNull();
-		assertThat(customFirstObjects).hasSize(1);
-		assertThat(customFirstObjects).contains(CustomFirstObject.builder().id(11).amount(2.0d).build());
+		assertThat(customFirstObjects).hasSize(2);
+		assertThat(customFirstObjects).contains(
+			CustomFirstObject.builder().id(11).amount(2.0d).build(),
+			CustomFirstObject.builder().id(22).amount(4.0d).build()
+		);
 	}
 }
