@@ -2,6 +2,7 @@ package com.demo.relationalGeode;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -48,6 +49,8 @@ public class GemfireConfig {
         return event -> repository.save(SomeObject.builder()
             .someId("id1")
             .customFirstObjects(new ArrayList<>(Collections.singletonList(CustomFirstObject.builder()
+            //.customFirstObjects(new CopyOnWriteArrayList<>(Collections.singletonList(CustomFirstObject.builder()
+            //.customFirstObjects(Arrays.asList(CustomFirstObject.builder()
                 .id(11)
                 .amount(2.0)
                 .build())))
