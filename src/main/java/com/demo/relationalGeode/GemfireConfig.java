@@ -44,12 +44,10 @@ public class GemfireConfig {
 
     @Bean
     ApplicationListener<ApplicationReadyEvent> initializeCache(SomeObjectRepository repository) {
-        return event -> repository.save(SomeObject.builder()
-            .someId("id1")
-            .customFirstObjects(Collections.singletonList(CustomFirstObject.builder()
-                .id(11)
-                .amount(2.0)
-                .build()))
-            .build());
+        return event -> repository.save(new SomeObject()
+            .identifiedAs("id1")
+            .withCustomFirstObjects(new CustomFirstObject()
+                .identifiedAs(11)
+                .withAmount(2.0)));
     }
 }
