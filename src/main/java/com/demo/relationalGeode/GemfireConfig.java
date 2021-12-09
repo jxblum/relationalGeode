@@ -1,5 +1,6 @@
 package com.demo.relationalGeode;
 
+import java.util.ArrayList;
 import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -46,10 +47,10 @@ public class GemfireConfig {
     ApplicationListener<ApplicationReadyEvent> initializeCache(SomeObjectRepository repository) {
         return event -> repository.save(SomeObject.builder()
             .someId("id1")
-            .customFirstObjects(Collections.singletonList(CustomFirstObject.builder()
+            .customFirstObjects(new ArrayList<>(Collections.singletonList(CustomFirstObject.builder()
                 .id(11)
                 .amount(2.0)
-                .build()))
+                .build())))
             .build());
     }
 }
