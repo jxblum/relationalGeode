@@ -19,7 +19,7 @@ repositories {
 }
 
 ext {
-	set('springGeodeVersion', "1.5.4")
+	set('springGeodeVersion', "1.6.1")
 }
 
 dependencies {
