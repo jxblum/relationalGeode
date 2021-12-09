@@ -3,11 +3,15 @@ package com.demo.relationalGeode;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import org.apache.geode.cache.DataPolicy;
 import org.apache.geode.cache.GemFireCache;
@@ -21,6 +25,7 @@ import org.springframework.data.gemfire.mapping.MappingPdxSerializer;
 import org.springframework.geode.config.annotation.ClusterAwareConfiguration;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SuppressWarnings("unused")
 class RelationalGeodeApplicationTests {
 
@@ -45,6 +50,7 @@ class RelationalGeodeApplicationTests {
 
 		assertThat(this.cache).isNotNull();
 		assertThat(this.cache.getName()).isEqualTo("RelationalGeode");
+		assertThat(this.cache.getCopyOnRead()).isTrue();
 		assertThat(cacheTypePredicate.test(this.cache)).isTrue();
 		assertThat(this.cache.getPdxSerializer()).isInstanceOf(MappingPdxSerializer.class);
 		assertThat(this.cache.getPdxReadSerialized()).isFalse();
@@ -64,7 +70,37 @@ class RelationalGeodeApplicationTests {
 	}
 
 	@Test
+	@Order(1)
 	public void cacheRegionIsInitializedWithData() {
+
+		SomeObject someObject = this.repository.findById("id1").orElse(null);
+
+		assertThat(someObject).isNotNull();
+		assertThat(someObject.getSomeId()).isEqualTo("id1");
+
+		List<CustomFirstObject> customFirstObjects = someObject.getCustomFirstObjects();
+
+		assertThat(customFirstObjects).isNull();
+	}
+
+	@Test
+	@Order(2)
+	public void loadAndUpdateSomeObject() {
+
+		SomeObject someObject = this.repository.findById("id1").orElse(null);
+
+		assertThat(someObject).isNotNull();
+		assertThat(someObject.getSomeId()).isEqualTo("id1");
+
+		someObject.setCustomFirstObjects(Collections.singletonList(CustomFirstObject.builder()
+			.id(11).amount(2.0d).build()));
+
+		this.repository.save(someObject);
+	}
+
+	@Test
+	@Order(3)
+	public void loadSomeObjectAndValidate() {
 
 		SomeObject someObject = this.repository.findById("id1").orElse(null);
 
