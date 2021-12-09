@@ -3,11 +3,15 @@ package com.demo.relationalGeode;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import org.apache.geode.cache.DataPolicy;
 import org.apache.geode.cache.GemFireCache;
@@ -21,6 +25,7 @@ import org.springframework.data.gemfire.mapping.MappingPdxSerializer;
 import org.springframework.geode.config.annotation.ClusterAwareConfiguration;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SuppressWarnings("unused")
 class RelationalGeodeApplicationTests {
 
@@ -61,9 +66,27 @@ class RelationalGeodeApplicationTests {
 		assertThat(someObjectRegion.getName()).isEqualTo("some-object-region");
 		assertThat(someObjectRegion.getAttributes()).isNotNull();
 		assertThat(regionDataPolicyPredicate.test(someObjectRegion.getAttributes().getDataPolicy())).isTrue();
+
+		System.err.printf("CONFIGURATION IS CORRECT!!!%n");
 	}
 
 	@Test
+	@Order(1)
+	public void initializeCacheIsSuccessful() {
+
+		SomeObject someObject = SomeObject.builder()
+			.someId("id1")
+			.customFirstObjects(Collections.singletonList(CustomFirstObject.builder()
+				.id(11)
+				.amount(2.0d)
+				.build()))
+			.build();
+
+		this.repository.save(someObject);
+	}
+
+	@Test
+	@Order(2)
 	public void cacheRegionIsInitializedWithData() {
 
 		SomeObject someObject = this.repository.findById("id1").orElse(null);

@@ -43,6 +43,7 @@ public class GemfireConfig {
     }
 
     @Bean
+    @Profile("init-cache")
     ApplicationListener<ApplicationReadyEvent> initializeCache(SomeObjectRepository repository) {
         return event -> repository.save(SomeObject.builder()
             .someId("id1")
